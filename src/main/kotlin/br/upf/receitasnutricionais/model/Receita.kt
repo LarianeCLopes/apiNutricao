@@ -1,7 +1,7 @@
 package br.upf.receitasnutricionais.model
 
-data class usuario (
+data class Receita (
     val id: Long? = null,
     val nome: String,
-    val telefone: String
+    val descricao: String
 )

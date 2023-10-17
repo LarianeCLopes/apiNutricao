@@ -1,7 +1,9 @@
 package br.upf.receitasnutricionais.model
 
-data class receita (
+
+data class Nutricionista(
     val id: Long? = null,
     val nome: String,
-    val descricao: String
+    val inicioPrograma: String,
+    val fimPrograma: String
 )
