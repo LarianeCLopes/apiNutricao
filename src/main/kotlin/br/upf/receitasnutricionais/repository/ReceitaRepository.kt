@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class ReceitaRepository (private  var receitas: MutableList<Receita>) {
-
+    private var idCont = 4L
     init {
         val receita1 = Receita(
                 id = 1,
@@ -17,6 +17,6 @@ class ReceitaRepository (private  var receitas: MutableList<Receita>) {
     fun findAll() = receitas
 
     fun cadastrar(receita: Receita){
-        receitas.add(receita)
+        receitas.add(receita.copy(id = idCont++))
     }
 }

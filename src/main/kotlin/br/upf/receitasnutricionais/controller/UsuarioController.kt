@@ -1,5 +1,7 @@
 package br.upf.receitasnutricionais.controller
 
+import br.upf.receitasnutricionais.dtos.UsuarioDTO
+import br.upf.receitasnutricionais.dtos.UsuarioResponseDTO
 import br.upf.receitasnutricionais.model.Usuario
 import br.upf.receitasnutricionais.service.UsuariosService
 import org.springframework.web.bind.annotation.GetMapping
@@ -13,16 +15,16 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/usuarios")
 class UsuarioController (val service: UsuariosService){
     @GetMapping
-    fun listar(): List<Usuario> {
+    fun listar(): List<UsuarioResponseDTO> {
         return service.listar()
     }
     @GetMapping("/{id}")
-    fun buscarPorId(@PathVariable id:Long): Usuario {
+    fun buscarPorId(@PathVariable id:Long): UsuarioResponseDTO {
         return service.buscaPorId(id)
     }
 
     @PostMapping
-    fun cadastra(@RequestBody usuario: Usuario) {
-        service.cadastrar(usuario)
+    fun cadastra(@RequestBody dto: UsuarioDTO) {
+        service.cadastrar(dto)
     }
 }

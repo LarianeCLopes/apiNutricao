@@ -1,5 +1,7 @@
 package br.upf.receitasnutricionais.controller
 
+import br.upf.receitasnutricionais.dtos.ReceitasDTO
+import br.upf.receitasnutricionais.dtos.ReceitasResponseDTO
 import br.upf.receitasnutricionais.model.Receita
 import br.upf.receitasnutricionais.service.ReceitasService
 import org.springframework.web.bind.annotation.GetMapping
@@ -13,15 +15,15 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/receitas")
 class ReceitaController (val service: ReceitasService){
     @GetMapping
-    fun listar(): List<Receita> {
+    fun listar(): List<ReceitasResponseDTO> {
         return service.listar()
     }
     @GetMapping("/{id}")
-    fun buscarPorId(@PathVariable id:Long): Receita {
+    fun buscarPorId(@PathVariable id:Long): ReceitasResponseDTO {
         return service.buscarPorId(id)
     }
     @PostMapping
-    fun cadastra(@RequestBody receita: Receita) {
-        service.cadastrar(receita)
+    fun cadastra(@RequestBody dto: ReceitasDTO) {
+        service.cadastrar(dto)
     }
 }
