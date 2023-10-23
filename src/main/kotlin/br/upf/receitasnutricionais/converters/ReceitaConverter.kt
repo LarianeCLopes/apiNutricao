@@ -16,6 +16,7 @@ class ReceitaConverter {
 
     fun toReceitaResponseDTO(receita: Receita): ReceitasResponseDTO {
         return ReceitasResponseDTO(
+                id = receita.id,
                 nome = receita.nome,
                 descricao = receita.descricao
         )

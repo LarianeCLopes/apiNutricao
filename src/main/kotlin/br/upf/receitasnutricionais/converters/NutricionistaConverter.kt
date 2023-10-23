@@ -17,6 +17,7 @@ class NutricionistaConverter {
 
     fun toNutricionistaResponseDTO(nutricionista: Nutricionista): NutricionistaResponseDTO {
         return NutricionistaResponseDTO(
+                id = nutricionista.id,
                 nome = nutricionista.nome,
                 inicioPrograma = nutricionista.inicioPrograma,
                 fimPrograma = nutricionista.fimPrograma

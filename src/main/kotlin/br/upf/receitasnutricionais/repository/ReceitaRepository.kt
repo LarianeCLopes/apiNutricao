@@ -16,7 +16,25 @@ class ReceitaRepository (private  var receitas: MutableList<Receita>) {
     }
     fun findAll() = receitas
 
-    fun cadastrar(receita: Receita){
-        receitas.add(receita.copy(id = idCont++))
+    fun cadastrar(receita: Receita): Receita{
+        val receitaComId = receita.copy(id = idCont++)
+        receitas.add(receitaComId)
+        return receitaComId
+    }
+
+    fun update(receita: Receita, receitaAtualizada: Receita): Receita {
+        receitas.remove(receita)
+        val receitaAtualizadaComId = Receita(
+                id = receita.id,
+                nome = receitaAtualizada.nome,
+                descricao = receitaAtualizada.descricao
+        )
+        receitas.add(receitaAtualizadaComId)
+        return receitaAtualizadaComId
+    }
+
+    fun deletar(id: Long) {
+        val receita = receitas.first { it.id == id}
+        receitas.remove(receita)
     }
 }

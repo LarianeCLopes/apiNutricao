@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class UsuarioConverter {
-    fun ToUsuario(dto: UsuarioDTO): Usuario {
+    fun toUsuario(dto: UsuarioDTO): Usuario {
         return Usuario(
                 nome = dto.nome,
                 telefone = dto.telefone
@@ -16,6 +16,7 @@ class UsuarioConverter {
 
     fun toUsuarioResponseDTO(usuario: Usuario): UsuarioResponseDTO {
         return UsuarioResponseDTO(
+                id = usuario.id,
                 nome = usuario.nome,
                 telefone = usuario.telefone
         )
