@@ -4,6 +4,7 @@ import br.upf.receitasnutricionais.dtos.NutricionistaDTO
 import br.upf.receitasnutricionais.dtos.NutricionistaResponseDTO
 import br.upf.receitasnutricionais.model.Nutricionista
 import br.upf.receitasnutricionais.service.NutricionistaService
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.apache.catalina.Service
 import org.springframework.http.HttpStatus
@@ -32,14 +33,18 @@ class NutricionistaController (val service: NutricionistaService){
         return service.buscarPorId(id)
     }
     @PostMapping
-    fun cadastra(@RequestBody @Valid dto: NutricionistaDTO,
-                 uriBuilder: UriComponentsBuilder): ResponseEntity<NutricionistaResponseDTO> {
+    @Transactional
+    fun cadastrar(@RequestBody @Valid dto: NutricionistaDTO,
+                 uriBuilder: UriComponentsBuilder):
+            ResponseEntity<NutricionistaResponseDTO> {
         val nutricionistaReponse = service.cadastrar(dto)
-        val uri = uriBuilder.path("/nutricionistas/${nutricionistaReponse.id}").build().toUri()
+        val uri = uriBuilder.path("/nutricionistas/${nutricionistaReponse.id}")
+            .build().toUri()
         return ResponseEntity.created(uri).body(nutricionistaReponse)
     }
 
     @PutMapping("/{id}")
+    @Transactional
     fun atualizar (@PathVariable id: Long, @RequestBody @Valid dto: NutricionistaDTO
     ): NutricionistaResponseDTO {
         return service.atualizar(id, dto)
@@ -47,6 +52,7 @@ class NutricionistaController (val service: NutricionistaService){
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     fun deletar(@PathVariable id: Long) {
         service.deletar(id)
     }

@@ -4,6 +4,7 @@ import br.upf.receitasnutricionais.dtos.UsuarioDTO
 import br.upf.receitasnutricionais.dtos.UsuarioResponseDTO
 import br.upf.receitasnutricionais.model.Usuario
 import br.upf.receitasnutricionais.service.UsuariosService
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -19,11 +20,12 @@ class UsuarioController (val service: UsuariosService){
     }
     @GetMapping("/{id}")
     fun buscarPorId(@PathVariable id:Long): UsuarioResponseDTO {
-        return service.buscaPorId(id)
+        return service.buscarPorId(id)
     }
 
     @PostMapping
-    fun cadastra(@RequestBody @Valid dto: UsuarioDTO,
+    @Transactional
+    fun cadastrar(@RequestBody @Valid dto: UsuarioDTO,
         uriBuilder: UriComponentsBuilder): ResponseEntity<UsuarioResponseDTO> {
             val usuarioResponse = service.cadastrar(dto)
             val uri = uriBuilder.path("/usuarios/${usuarioResponse.id}").build().toUri()
@@ -31,6 +33,7 @@ class UsuarioController (val service: UsuariosService){
     }
 
     @PutMapping("/{id}")
+    @Transactional
     fun atualizar(@PathVariable id: Long, @RequestBody @Valid dto: UsuarioDTO
     ): UsuarioResponseDTO {
         return service.atualizar(id, dto)
@@ -38,6 +41,7 @@ class UsuarioController (val service: UsuariosService){
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     fun deletar(@PathVariable id: Long) {
         service.deletar(id)
     }

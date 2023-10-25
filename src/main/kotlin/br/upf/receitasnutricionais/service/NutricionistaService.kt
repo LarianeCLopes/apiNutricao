@@ -4,36 +4,42 @@ import br.upf.receitasnutricionais.converters.NutricionistaConverter
 import br.upf.receitasnutricionais.dtos.NutricionistaDTO
 import br.upf.receitasnutricionais.dtos.NutricionistaResponseDTO
 import br.upf.receitasnutricionais.exceptions.NotFoundException
-import br.upf.receitasnutricionais.model.Nutricionista
 import br.upf.receitasnutricionais.repository.NutricionistaRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
+private const val NUTRICIONISTA_NOT_FOUND_MESSAGE = "Nutricionista não encontrada!"
 @Service
-class NutricionistaService(private val repository: NutricionistaRepository, private val converter: NutricionistaConverter) {
+class NutricionistaService(
+    private val repository: NutricionistaRepository,
+    private val converter: NutricionistaConverter
+) {
     fun listar(): List<NutricionistaResponseDTO> {
         return repository.findAll()
-                .map(converter::toNutricionistaResponseDTO)
+            .map(converter::toNutricionistaResponseDTO)
     }
-
     fun buscarPorId(id: Long): NutricionistaResponseDTO {
-        val nutricionista = repository.findAll().firstOrNull {it.id == id}
-                ?: throw NotFoundException("Nutricionista não encontrada")
+        val nutricionista = repository.findById(id).orElseThrow { NotFoundException(NUTRICIONISTA_NOT_FOUND_MESSAGE) }
         return converter.toNutricionistaResponseDTO(nutricionista)
     }
-
     fun cadastrar(dto: NutricionistaDTO): NutricionistaResponseDTO {
-        val nutricionista = repository.cadastrar(converter.toNutri(dto))
-        return converter.toNutricionistaResponseDTO(nutricionista)
+        return converter.toNutricionistaResponseDTO(repository.save(converter.toNutri(dto)))
     }
 
-    fun atualizar(id: Long, dto: NutricionistaDTO): NutricionistaResponseDTO{
-        val nutricionista = repository.findAll().firstOrNull { it.id == id}
-                ?: throw NotFoundException("Nutricionista não encontrada")
-        val nutriAtualizada = repository.update(nutricionista, converter.toNutri(dto))
-        return converter.toNutricionistaResponseDTO(nutriAtualizada)
+    fun atualizar(id: Long, dto: NutricionistaDTO): NutricionistaResponseDTO {
+        val nutricionista = repository.findById(id)
+            .orElseThrow { NotFoundException(NUTRICIONISTA_NOT_FOUND_MESSAGE) }
+            .copy(
+                nome = dto.nome,
+                inicio_programa = dto.inicio_programa,
+                fim_programa = dto.fim_programa
+            )
+        return converter.toNutricionistaResponseDTO(repository.save(nutricionista))
     }
 
-    fun deletar(id: Long) {
-        repository.deletar(id)
+    fun deletar (id: Long) {
+        repository.deleteById(id)
     }
+
 }

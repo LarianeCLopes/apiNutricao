@@ -5,6 +5,7 @@ import br.upf.receitasnutricionais.dtos.ReceitasDTO
 import br.upf.receitasnutricionais.dtos.ReceitasResponseDTO
 import br.upf.receitasnutricionais.model.Receita
 import br.upf.receitasnutricionais.service.ReceitasService
+import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -31,14 +32,17 @@ class ReceitaController (val service: ReceitasService){
         return service.buscarPorId(id)
     }
     @PostMapping
-    fun cadastra(@RequestBody @Valid dto: ReceitasDTO,
+    @Transactional
+    fun cadastrar(@RequestBody @Valid dto: ReceitasDTO,
                  uriBuilder: UriComponentsBuilder): ResponseEntity<ReceitasResponseDTO> {
         val receitasResponse = service.cadastrar(dto)
-        val uri = uriBuilder.path("/receitas/${receitasResponse.id}").build().toUri()
+        val uri = uriBuilder.path("/receitas/${receitasResponse.id}")
+            .build().toUri()
         return ResponseEntity.created(uri).body(receitasResponse)
     }
 
     @PutMapping("/{id}")
+    @Transactional
     fun atualizar(@PathVariable id: Long, @RequestBody @Valid dto: ReceitasDTO
     ): ReceitasResponseDTO {
         return service.atualizar(id, dto)
@@ -46,6 +50,7 @@ class ReceitaController (val service: ReceitasService){
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @Transactional
     fun deletar(@PathVariable id: Long) {
         service.deletar(id)
     }
