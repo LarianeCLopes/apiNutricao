@@ -10,8 +10,9 @@ class NutricionistaConverter {
     fun toNutri(dto: NutricionistaDTO): Nutricionista {
         return Nutricionista(
                 nome = dto.nome,
-                inicioPrograma = dto.inicioPrograma,
-                fimPrograma = dto.fimPrograma
+                inicio_programa = dto.inicio_programa,
+                fim_programa = dto.fim_programa,
+                consultas = listOf()
         )
     }
 
@@ -19,8 +20,8 @@ class NutricionistaConverter {
         return NutricionistaResponseDTO(
                 id = nutricionista.id,
                 nome = nutricionista.nome,
-                inicioPrograma = nutricionista.inicioPrograma,
-                fimPrograma = nutricionista.fimPrograma
+                inicio_programa = nutricionista.inicio_programa,
+                fim_programa = nutricionista.fim_programa
         )
     }
 }

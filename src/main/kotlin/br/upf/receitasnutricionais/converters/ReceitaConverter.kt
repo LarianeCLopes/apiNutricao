@@ -11,6 +11,7 @@ class ReceitaConverter {
         return Receita(
                 nome = dto.nome,
                 descricao = dto.descricao
+
         )
     }
 

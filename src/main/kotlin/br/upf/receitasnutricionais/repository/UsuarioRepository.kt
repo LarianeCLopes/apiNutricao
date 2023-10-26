@@ -1,41 +1,15 @@
 package br.upf.receitasnutricionais.repository
 
-import br.upf.receitasnutricionais.dtos.UsuarioDTO
 import br.upf.receitasnutricionais.model.Usuario
+import org.springframework.data.domain.Page
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Repository
+import java.awt.print.Pageable
 
 @Repository
-class UsuarioRepository (private var usuarios: MutableList<Usuario>){
-    private var idCont = 4L
-    init {
-        val usuario1 = Usuario(
-                id = 1,
-                nome = "Ana Clara",
-                telefone = "99999-9999"
-        )
-        usuarios = mutableListOf(usuario1)
-    }
-    fun findAll() = usuarios
+interface UsuarioRepository: JpaRepository<Usuario, Long> {
+    fun findByNome(nomeUsuario: String, paginacao: Pageable): Page<Usuario>
 
-    fun cadastrar(usuario: Usuario): Usuario{
-        val usuarioComId = usuario.copy(id = idCont++)
-        usuarios.add(usuarioComId)
-        return usuarioComId
-    }
-
-    fun update(usuario: Usuario, usuarioAtualizado: Usuario): Usuario {
-        usuarios.remove(usuario)
-        val usuarioAtualizadoComId = Usuario(
-                id = usuario.id,
-                nome = usuarioAtualizado.nome,
-                telefone = usuarioAtualizado.telefone
-        )
-        usuarios.add(usuarioAtualizadoComId)
-        return usuarioAtualizadoComId
-    }
-
-    fun deletar(id: Long) {
-        val usuario = usuarios.first { it.id == id}
-        usuarios.remove(usuario)
-    }
+    fun findByEmail(email: String): UserDetails?
 }
