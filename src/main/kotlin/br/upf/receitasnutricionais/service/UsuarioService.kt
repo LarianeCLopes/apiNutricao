@@ -4,15 +4,19 @@ import br.upf.receitasnutricionais.converters.UsuarioConverter
 import br.upf.receitasnutricionais.dtos.UsuarioDTO
 import br.upf.receitasnutricionais.dtos.UsuarioResponseDTO
 import br.upf.receitasnutricionais.exceptions.NotFoundException
+
 import br.upf.receitasnutricionais.repository.UsuarioRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 
 private const val USUARIO_NOT_FOUND_MESSAGE = "Usuário não encontrado!"
 
 @Service
-class UsuariosService (private val repository: UsuarioRepository,
-                     private val converter: UsuarioConverter
+class UsuarioService(
+    private val repository: UsuarioRepository,
+    private val converter: UsuarioConverter
 ) {
     fun listar(): List<UsuarioResponseDTO> {
         return repository.findAll()

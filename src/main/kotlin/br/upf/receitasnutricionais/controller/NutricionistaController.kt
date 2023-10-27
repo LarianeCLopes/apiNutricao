@@ -7,46 +7,45 @@ import br.upf.receitasnutricionais.service.NutricionistaService
 import jakarta.transaction.Transactional
 import jakarta.validation.Valid
 import org.apache.catalina.Service
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.util.UriBuilder
 import org.springframework.web.util.UriComponentsBuilder
 
 @RestController
 @RequestMapping("/nutricionistas")
-class NutricionistaController (val service: NutricionistaService){
+class NutricionistaController(val service: NutricionistaService) {
     @GetMapping
-    fun listar(): List<NutricionistaResponseDTO> {
-        return service.listar()
+    fun listar(
+        @RequestParam(required = false) nomeNutricionista: String?,
+        paginacao: Pageable
+    ): Page<NutricionistaResponseDTO> {
+        return service.listar(nomeNutricionista, paginacao)
     }
+
     @GetMapping("/{id}")
     fun buscarPorId(@PathVariable id: Long): NutricionistaResponseDTO {
         return service.buscarPorId(id)
     }
+
     @PostMapping
     @Transactional
-    fun cadastrar(@RequestBody @Valid dto: NutricionistaDTO,
-                 uriBuilder: UriComponentsBuilder):
-            ResponseEntity<NutricionistaResponseDTO> {
-        val nutricionistaReponse = service.cadastrar(dto)
-        val uri = uriBuilder.path("/nutricionistas/${nutricionistaReponse.id}")
+    fun cadastrar(
+        @RequestBody @Valid dto: NutricionistaDTO,
+        uriBuilder: UriComponentsBuilder
+    ): ResponseEntity<NutricionistaResponseDTO> {
+        val nutricionistaResponse = service.cadastrar(dto)
+        val uri = uriBuilder.path("/nutricionistas/${nutricionistaResponse.id}")
             .build().toUri()
-        return ResponseEntity.created(uri).body(nutricionistaReponse)
+        return ResponseEntity.created(uri).body(nutricionistaResponse)
     }
 
     @PutMapping("/{id}")
     @Transactional
-    fun atualizar (@PathVariable id: Long, @RequestBody @Valid dto: NutricionistaDTO
-    ): NutricionistaResponseDTO {
+    fun atualizar(@PathVariable id: Long, @RequestBody @Valid dto: NutricionistaDTO): NutricionistaResponseDTO {
         return service.atualizar(id, dto)
     }
 

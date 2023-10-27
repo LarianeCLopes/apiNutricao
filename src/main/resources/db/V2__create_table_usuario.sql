@@ -1,6 +1,0 @@
-
-CREATE TABLE `usuario` (
-    `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `nome` VARCHAR(255) NOT NULL,
-    `telefone` VARCHAR(20) NOT NULL
-);

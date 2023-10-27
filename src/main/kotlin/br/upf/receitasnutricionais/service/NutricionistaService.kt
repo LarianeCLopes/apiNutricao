@@ -10,19 +10,30 @@ import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 private const val NUTRICIONISTA_NOT_FOUND_MESSAGE = "Nutricionista não encontrada!"
+
 @Service
 class NutricionistaService(
     private val repository: NutricionistaRepository,
     private val converter: NutricionistaConverter
 ) {
-    fun listar(): List<NutricionistaResponseDTO> {
-        return repository.findAll()
+    fun listar(
+        nomeNutricionista: String?,
+        paginacao: Pageable
+    ): Page<NutricionistaResponseDTO> {
+        val nutricionistas = if (nomeNutricionista == null) {
+            repository.findAll(paginacao)
+        } else {
+            repository.findByNome(nomeNutricionista, paginacao)
+        }
+        return nutricionistas
             .map(converter::toNutricionistaResponseDTO)
     }
+
     fun buscarPorId(id: Long): NutricionistaResponseDTO {
         val nutricionista = repository.findById(id).orElseThrow { NotFoundException(NUTRICIONISTA_NOT_FOUND_MESSAGE) }
         return converter.toNutricionistaResponseDTO(nutricionista)
     }
+
     fun cadastrar(dto: NutricionistaDTO): NutricionistaResponseDTO {
         return converter.toNutricionistaResponseDTO(repository.save(converter.toNutri(dto)))
     }
@@ -38,8 +49,7 @@ class NutricionistaService(
         return converter.toNutricionistaResponseDTO(repository.save(nutricionista))
     }
 
-    fun deletar (id: Long) {
+    fun deletar(id: Long) {
         repository.deleteById(id)
     }
-
 }
