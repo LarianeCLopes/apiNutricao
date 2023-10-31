@@ -1,6 +1,6 @@
 package br.upf.receitasnutricionais.controller
 
-import br.upf.clinicaveterinaria.service.TokenService
+import br.upf.receitasnutricionais.service.TokenService
 import br.upf.receitasnutricionais.dtos.LoginDTO
 import br.upf.receitasnutricionais.dtos.LoginResponseDTO
 import br.upf.receitasnutricionais.dtos.UsuarioDTO

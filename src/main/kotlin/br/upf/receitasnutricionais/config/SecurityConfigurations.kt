@@ -1,6 +1,6 @@
 package br.upf.receitasnutricionais.config
 
-import br.upf.clinicaveterinaria.config.SecurityFilter
+import br.upf.receitasnutricionais.config.SecurityFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod

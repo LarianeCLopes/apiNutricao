@@ -1,4 +1,4 @@
-package br.upf.clinicaveterinaria.service
+package br.upf.receitasnutricionais.service
 
 import br.upf.receitasnutricionais.model.Usuario
 import com.auth0.jwt.JWT

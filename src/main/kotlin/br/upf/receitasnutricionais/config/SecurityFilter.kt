@@ -1,7 +1,7 @@
-package br.upf.clinicaveterinaria.config
+package br.upf.receitasnutricionais.config
 
-import br.upf.clinicaveterinaria.service.TokenService
 import br.upf.receitasnutricionais.repository.UsuarioRepository
+import br.upf.receitasnutricionais.service.TokenService
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse

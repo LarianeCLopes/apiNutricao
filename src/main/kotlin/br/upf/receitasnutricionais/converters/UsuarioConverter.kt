@@ -2,7 +2,6 @@ package br.upf.receitasnutricionais.converters
 
 import br.upf.receitasnutricionais.dtos.UsuarioDTO
 import br.upf.receitasnutricionais.dtos.UsuarioResponseDTO
-import br.upf.receitasnutricionais.model.Nutricionista
 import br.upf.receitasnutricionais.model.Usuario
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Component
@@ -11,11 +10,11 @@ import org.springframework.stereotype.Component
 class UsuarioConverter {
 
     fun toUsuario(dto: UsuarioDTO): Usuario {
-        return Usuario(nome = dto.nome,
+        return Usuario(
+                nome = dto.nome,
                 telefone = dto.telefone,
                 email = dto.email,
                 senha = BCryptPasswordEncoder().encode(dto.senha),
-                consultas = listOf()
         )
     }
     fun toUsuarioResponseDTO(usuario: Usuario): UsuarioResponseDTO {

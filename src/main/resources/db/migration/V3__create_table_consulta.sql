@@ -1,8 +1,8 @@
 CREATE TABLE `consulta` (
-    `id` BIGINT PRIMARY KEY AUTO_INCREMENT,
-    `agendamento` VARCHAR(30),
-    `nutricionista_id` BIGINT NOT NULL,
-    `usuario_id` BIGINT NOT NULL,
-    FOREIGN KEY (`nutricionista_id`) REFERENCES `nutricionista`(`id`),
-    FOREIGN KEY (`usuario_id`) REFERENCES `usuario`(`id`)
+                           `id` bigint NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                           `agendamento` varchar(255) NOT NULL,
+                           `usuario_id` bigint NOT NULL,
+                           `nutricionista_id` bigint NOT NULL,
+                           FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`),
+                           FOREIGN KEY (`nutricionista_id`) REFERENCES `nutricionista` (`id`)
 );
